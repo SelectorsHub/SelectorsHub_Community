@@ -1,0 +1,39 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WindowType;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import java.io.File;
+
+public class AutoManualTestCase {
+    public static void main(String[] args) throws Exception {
+
+        System.setProperty("webdriver.chrome.driver", "/Users/sanjaykumar/Downloads/chromedriver");
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+
+        options.addExtensions(new File("/Users/sanjaykumar/Downloads/testcasestudio.crx"));
+
+        WebDriver driver = new ChromeDriver(options);
+
+        driver.get("chrome-extension://loopjjegnlccnhgfehekecpanpmielcj/testCaseStudio/studioWindow.html");
+
+        String parentWindow= driver.getWindowHandle();
+
+        driver.switchTo().newWindow(WindowType.WINDOW);
+        driver.navigate().to("https://selectorshub.com/xpath-practice-page/");
+        Thread.sleep(5000);
+
+        driver.findElement(By.xpath("//input[@id='userId']")).sendKeys("support@selectorshub.com");
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("//input[@id='pass']")).sendKeys("abc123");
+        Thread.sleep(5000);
+        driver.findElement(By.xpath("//a[@class='hfe-menu-item'][normalize-space()='Donate']")).click();
+
+        driver.switchTo().window(parentWindow);
+
+        driver.findElement(By.id("save_btn")).click();
+
+    }
+}
